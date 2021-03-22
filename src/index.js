@@ -41,9 +41,14 @@ function addBreeds(breedJSON) {
             breedText = document.createTextNode(`${breed}: ${(breedJSON[breed]).join(', ')}`)
         }
         else breedText = document.createTextNode(breed);
+        li.onclick = changeColor;
         li.appendChild(breedText);
         breedList.appendChild(li);
     }
+}
+
+function changeColor() {
+    this.style.color = "blue";
 }
 
 document.addEventListener("DOMContentLoaded", getDogs);
