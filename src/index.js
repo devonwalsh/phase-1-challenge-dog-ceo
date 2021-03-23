@@ -1,10 +1,9 @@
+let breedArray = [];
+
 //Event listeners
 document.addEventListener("DOMContentLoaded", () => { 
     callImageAPI();
     callBreedAPI();
-    document.getElementById("breed-dropdown").addEventListener("change", (e) => {
-        let dropdownValue = e.target.value;
-    })
 })
 
 function callImageAPI() {
@@ -32,31 +31,45 @@ function callBreedAPI() {
     .then(response => response.json())
     .then(data => {
         let breedObject = data.message;
-        addBreedList(breedObject);
+        for (let breed in breedObject) {
+            breedArray.push(breed);
+        }
+
+        addBreedList(breedArray);
+        breedFilterListener();
+        
     });
 }
 
-function addBreedList(breedObject) {
+function addBreedList(breeds) {
     const breedContainer = document.getElementById("dog-breeds");
     
-    for (let breed in breedObject) {
-        let breedList;
+    breeds.forEach(breed => {
         const li = document.createElement("li");
-        if (breedObject[breed].length > 0) {
-            breedList = document.createTextNode(`${breed}: ${(breedObject[breed]).join(', ')}`)
-        }
-        else breedList = document.createTextNode(breed);
-        li.appendChild(breedList);
+        let breedItem = document.createTextNode(breed);
+        li.appendChild(breedItem);
         breedContainer.appendChild(li);
-    }
-    addEventListeners();
+    })
+    fontColorListener();
+}
+
+function filterBreeds(firstLetter) {
+    let ul = document.getElementById("dog-breeds");
+    ul.innerHTML = '';
+    let filteredBreeds = breedArray.filter(breed => breed[0] === firstLetter);
+    addBreedList(filteredBreeds);
+}
+
+function fontColorListener() {
+    const lis = document.querySelectorAll("li")
+    lis.forEach(li => li.addEventListener("click", changeTextColor))
 }
 
 function changeTextColor() {
     this.style.color = "blue";
 }
 
-function addEventListeners() {
-    const lis = document.querySelectorAll("li")
-    lis.forEach(li => li.addEventListener("click", changeTextColor))
+function breedFilterListener() {
+    const breedContainer = document.getElementById("breed-dropdown");
+    breedContainer.addEventListener("change", (e) => filterBreeds(e.target.value));
 }
