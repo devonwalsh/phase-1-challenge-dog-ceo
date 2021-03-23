@@ -4,7 +4,7 @@ let breedArray = [];
 document.addEventListener("DOMContentLoaded", () => { 
     callImageAPI();
     callBreedAPI();
-})
+});
 
 function callImageAPI() {
     fetch("https://dog.ceo/api/breeds/image/random/4")
@@ -49,7 +49,7 @@ function addBreedList(breeds) {
         let breedItem = document.createTextNode(breed);
         li.appendChild(breedItem);
         breedContainer.appendChild(li);
-    })
+    });
     fontColorListener();
 }
 
@@ -61,8 +61,8 @@ function filterBreeds(firstLetter) {
 }
 
 function fontColorListener() {
-    const lis = document.querySelectorAll("li")
-    lis.forEach(li => li.addEventListener("click", changeTextColor))
+    const lis = document.querySelectorAll("li");
+    lis.forEach(li => li.addEventListener("click", changeTextColor));
 }
 
 function changeTextColor() {
