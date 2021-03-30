@@ -1,4 +1,4 @@
-let breedArray = [];
+let breedArray;
 
 //Event listeners
 document.addEventListener("DOMContentLoaded", () => { 
@@ -30,11 +30,7 @@ function callBreedAPI() {
     fetch("https://dog.ceo/api/breeds/list/all")
     .then(response => response.json())
     .then(data => {
-        let breedObject = data.message;
-        for (let breed in breedObject) {
-            breedArray.push(breed);
-        }
-
+        breedArray = Object.keys(data.message);
         addBreedList(breedArray);
         breedFilterListener();
         
